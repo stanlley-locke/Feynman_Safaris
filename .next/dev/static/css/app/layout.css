@@ -1321,11 +1321,11 @@ h1, h2, h3, h4, h5, h6 {
 .w-\[100px\]{
   width: 100px;
 }
+.w-\[180px\]{
+  width: 180px;
+}
 .w-\[1px\]{
   width: 1px;
-}
-.w-\[50px\]{
-  width: 50px;
 }
 .w-auto{
   width: auto;
@@ -1339,9 +1339,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 .w-px{
   width: 1px;
-}
-.w-\[180px\]{
-  width: 180px;
 }
 .min-w-0{
   min-width: 0px;
@@ -1911,6 +1908,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .bg-background\/95{
   background-color: hsl(var(--background) / 0.95);
+}
+.bg-black\/25{
+  background-color: rgb(0 0 0 / 0.25);
 }
 .bg-black\/40{
   background-color: rgb(0 0 0 / 0.4);
@@ -2517,11 +2517,17 @@ h1, h2, h3, h4, h5, h6 {
 .leading-relaxed{
   line-height: 1.625;
 }
+.leading-tight{
+  line-height: 1.25;
+}
 .tracking-\[0\.25em\]{
   letter-spacing: 0.25em;
 }
 .tracking-\[0\.2em\]{
   letter-spacing: 0.2em;
+}
+.tracking-\[0\.35em\]{
+  letter-spacing: 0.35em;
 }
 .tracking-\[0\.3em\]{
   letter-spacing: 0.3em;
@@ -4669,6 +4675,10 @@ h1, h2, h3, h4, h5, h6 {
 
   .lg\:justify-center{
     justify-content: center;
+  }
+
+  .lg\:gap-10{
+    gap: 2.5rem;
   }
 
   .lg\:gap-12{

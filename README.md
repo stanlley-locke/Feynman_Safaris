@@ -1,73 +1,117 @@
-# Welcome to your Lovable project
+# Feynman Safaris Platform
 
-## Project info
+Feynman Safaris is a full-stack Next.js application for running a safari business:
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+- public marketing site with destination pages and planning inquiries
+- admin control center for destinations, bookings, customers, stays, transport, messages, reviews, blog posts, and users
+- SQLite-backed API layer powered by Drizzle ORM
 
-## How can I edit this code?
+## Tech Stack
 
-There are several ways of editing your application.
+- Next.js (App Router)
+- React + TypeScript
+- Tailwind CSS + shadcn/ui
+- Drizzle ORM
+- SQLite
+- Vitest + Playwright (configured)
 
-**Use Lovable**
+## Project Structure
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+```txt
+src/
+  app/
+    admin/                 # Admin login and dashboard pages
+    api/                   # Server route handlers
+    destinations/          # Public destinations list + detail pages
+    journal/               # Public blog pages
+  components/              # Shared UI/layout components
+  db/                      # Drizzle database setup and schema
+public/
+  assets/                  # Local images/video assets
+prisma/                    # Prisma schema/migrations (legacy/mixed tooling)
+```
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
+### 1) Install dependencies
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+```bash
+npm install
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 2) Run development server
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+App runs on [http://localhost:3000](http://localhost:3000).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Scripts
 
-**Use GitHub Codespaces**
+- `npm run dev` - start dev server
+- `npm run build` - production build
+- `npm run start` - run production server
+- `npm run lint` - lint checks
+- `npm run test` - run unit tests
+- `npm run test:watch` - run tests in watch mode
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Admin Access (Current Local Mock)
 
-## What technologies are used for this project?
+The admin login currently uses a temporary client-side credential check.
 
-This project is built with:
+- email: `admin@feynmansafaris.com`
+- password: `feynman2026`
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+After login, a simple cookie (`admin_session=true`) is set and used for access checks in the admin layout.
 
-## How can I deploy this project?
+## Key Features
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### Public Site
 
-## Can I connect a custom domain to my Lovable project?
+- destination listing and detail pages
+- destination itinerary rendering
+- “Start Planning” inquiry flow on destination pages
+- journal/blog listing
 
-Yes, you can!
+### Admin Dashboard
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- destination management with itinerary editing
+- bookings CRUD actions + CSV export
+- customers CRUD actions + CSV export
+- accommodations and transport management
+- messages and reviews moderation
+- blog and user management
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## API Overview
+
+The application uses route handlers under `src/app/api`.
+
+Main endpoints include:
+
+- `GET/POST/PATCH/DELETE /api/destinations`
+- `GET /api/destinations/[slug]`
+- `GET/POST/PATCH/DELETE /api/bookings`
+- `GET /api/bookings/export` (CSV)
+- `GET/POST/PATCH/DELETE /api/customers`
+- `GET /api/customers/export` (CSV)
+- `GET/POST/PATCH/DELETE /api/accommodations`
+- `GET/POST/PATCH/DELETE /api/transport`
+- `GET/POST/PATCH/DELETE /api/messages`
+- `GET/POST/PATCH/DELETE /api/reviews`
+- `GET/POST/PATCH/DELETE /api/blog`
+- `GET/POST/PATCH/DELETE /api/users`
+- `GET /api/stats`
+
+## Notes
+
+- The repo contains a mix of legacy files from earlier scaffolding and the active Next.js app.
+- Some features are intentionally mock/simple right now (notably admin authentication), and should be replaced with real auth/session management for production.
+
+## Production Recommendations
+
+- replace mock admin login with real auth (NextAuth/Auth.js or custom session backend)
+- add server-side authorization checks on all admin APIs
+- move secrets to environment variables and avoid committing sensitive files
+- add audit logging for admin actions
+- add endpoint tests for critical admin workflows

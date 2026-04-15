@@ -249,7 +249,7 @@ export default function DestinationDetailPage() {
                <div className="relative aspect-video bg-neutral-900 border border-gold/10 overflow-hidden flex items-center justify-center group">
                   <img 
                     src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=2670&auto=format&fit=crop" 
-                    className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale group-hover:scale-105 transition-transform duration-[20s]" 
+                    className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale group-hover:scale-105 transition-transform duration-[20000ms]" 
                     alt="Map"
                   />
                   <div className="relative z-10 text-center space-y-4">
