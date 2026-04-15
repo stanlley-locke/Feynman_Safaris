@@ -1,0 +1,36 @@
+{
+  "name": "Feynman Safaris",
+  "short_name": "Feynman Safaris",
+  "description": "Premium safari experiences in Africa inspired by scientific curiosity and discovery",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#D4AF37",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/assets/image.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/image.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "lifestyle", "photography"],
+  "screenshots": [
+    {
+      "src": "/assets/hero-safari.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "label": "Feynman Safaris Hero Image"
+    }
+  ]
+}
