@@ -1754,6 +1754,9 @@ h1, h2, h3, h4, h5, h6 {
 .border-\[1\.5px\]{
   border-width: 1.5px;
 }
+.border-0{
+  border-width: 0px;
+}
 .border-y{
   border-top-width: 1px;
   border-bottom-width: 1px;
@@ -1772,6 +1775,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .border-t{
   border-top-width: 1px;
+}
+.border-l-4{
+  border-left-width: 4px;
 }
 .border-dashed{
   border-style: dashed;
@@ -1881,6 +1887,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 .border-white\/40{
   border-color: rgb(255 255 255 / 0.4);
+}
+.border-neutral-300{
+  --tw-border-opacity: 1;
+  border-color: rgb(212 212 212 / var(--tw-border-opacity, 1));
+}
+.border-neutral-400{
+  --tw-border-opacity: 1;
+  border-color: rgb(163 163 163 / var(--tw-border-opacity, 1));
 }
 .border-l-transparent{
   border-left-color: transparent;
@@ -2056,6 +2070,16 @@ h1, h2, h3, h4, h5, h6 {
 .bg-white\/5{
   background-color: rgb(255 255 255 / 0.05);
 }
+.bg-black\/30{
+  background-color: rgb(0 0 0 / 0.3);
+}
+.bg-neutral-100{
+  --tw-bg-opacity: 1;
+  background-color: rgb(245 245 245 / var(--tw-bg-opacity, 1));
+}
+.bg-white\/90{
+  background-color: rgb(255 255 255 / 0.9);
+}
 .bg-\[url\(\'\/assets\/hero-safari\.jpg\'\)\]{
   background-image: url('/assets/hero-safari.jpg');
 }
@@ -2108,6 +2132,11 @@ h1, h2, h3, h4, h5, h6 {
   --tw-gradient-to: rgb(10 10 10 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+.from-background\/80{
+  --tw-gradient-from: hsl(var(--background) / 0.8) var(--tw-gradient-from-position);
+  --tw-gradient-to: hsl(var(--background) / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
 .via-background\/40{
   --tw-gradient-to: hsl(var(--background) / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), hsl(var(--background) / 0.4) var(--tw-gradient-via-position), var(--tw-gradient-to);
@@ -2127,6 +2156,10 @@ h1, h2, h3, h4, h5, h6 {
 .via-transparent{
   --tw-gradient-to: rgb(0 0 0 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+.via-black\/50{
+  --tw-gradient-to: rgb(0 0 0 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(0 0 0 / 0.5) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 .to-background{
   --tw-gradient-to: hsl(var(--background)) var(--tw-gradient-to-position);
@@ -2713,6 +2746,10 @@ h1, h2, h3, h4, h5, h6 {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
+.text-neutral-900{
+  --tw-text-opacity: 1;
+  color: rgb(23 23 23 / var(--tw-text-opacity, 1));
+}
 .underline{
   text-decoration-line: underline;
 }
@@ -2848,11 +2885,23 @@ h1, h2, h3, h4, h5, h6 {
 .ring-sidebar-ring{
   --tw-ring-color: hsl(var(--sidebar-ring));
 }
+.ring-white{
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(255 255 255 / var(--tw-ring-opacity, 1));
+}
 .ring-offset-background{
   --tw-ring-offset-color: hsl(var(--background));
 }
 .blur-xl{
   --tw-blur: blur(24px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+.drop-shadow-2xl{
+  --tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+.drop-shadow-lg{
+  --tw-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 .grayscale{
@@ -2873,6 +2922,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 .backdrop-blur-sm{
   --tw-backdrop-blur: blur(4px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+.backdrop-blur-lg{
+  --tw-backdrop-blur: blur(16px);
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
@@ -3200,6 +3254,10 @@ h1, h2, h3, h4, h5, h6 {
 .hover\:border-neutral-700:hover{
   --tw-border-opacity: 1;
   border-color: rgb(64 64 64 / var(--tw-border-opacity, 1));
+}
+
+.hover\:border-gold\/50:hover{
+  border-color: hsl(var(--gold) / 0.5);
 }
 
 .hover\:bg-accent:hover{
@@ -3588,6 +3646,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .group:hover .group-hover\:bg-transparent{
   background-color: transparent;
+}
+
+.group:hover .group-hover\:bg-neutral-100{
+  --tw-bg-opacity: 1;
+  background-color: rgb(245 245 245 / var(--tw-bg-opacity, 1));
+}
+
+.group:hover .group-hover\:bg-gold-light{
+  background-color: hsl(var(--gold-light));
 }
 
 .group:hover .group-hover\:text-accent{
@@ -5105,9 +5172,9 @@ h1, h2, h3, h4, h5, h6 {
   cursor: e-resize;
 }
 
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[15].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[15].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"src\\app\\layout.tsx","import":"Inter","arguments":[{"subsets":["latin"],"variable":"--font-inter"}],"variableName":"inter"} ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[15].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[15].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"src/app/layout.tsx","import":"Inter","arguments":[{"subsets":["latin"],"variable":"--font-inter"}],"variableName":"inter"} ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /* cyrillic-ext */
 @font-face {
   font-family: 'Inter';
@@ -5175,9 +5242,9 @@ h1, h2, h3, h4, h5, h6 {
 }.__variable_f367f3 {--font-inter: 'Inter', 'Inter Fallback'
 }
 
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[15].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[15].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"src\\app\\layout.tsx","import":"Outfit","arguments":[{"subsets":["latin"],"variable":"--font-outfit"}],"variableName":"outfit"} ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[15].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[15].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"src/app/layout.tsx","import":"Outfit","arguments":[{"subsets":["latin"],"variable":"--font-outfit"}],"variableName":"outfit"} ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /* latin-ext */
 @font-face {
   font-family: 'Outfit';

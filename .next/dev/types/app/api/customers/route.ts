@@ -1,4 +1,4 @@
-// File: C:\Users\stanl\Desktop\vscodeworkspace\feynman\safari-wonder-quest\src\app\api\customers\route.ts
+// File: /workspaces/Feynman_Safaris/src/app/api/customers/route.ts
 import * as entry from '../../../../../../src/app/api/customers/route.js'
 import type { NextRequest } from 'next/server.js'
 

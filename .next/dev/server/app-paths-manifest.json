@@ -1,7 +1,7 @@
 {
-  "/api/stats/route": "app/api/stats/route.js",
-  "/admin/login/page": "app/admin/login/page.js",
-  "/admin/dashboard/page": "app/admin/dashboard/page.js",
-  "/admin/dashboard/bookings/page": "app/admin/dashboard/bookings/page.js",
-  "/admin/dashboard/customers/page": "app/admin/dashboard/customers/page.js"
+  "/destinations/[slug]/page": "app/destinations/[slug]/page.js",
+  "/journal/page": "app/journal/page.js",
+  "/destinations/page": "app/destinations/page.js",
+  "/admin/dashboard/blog/page": "app/admin/dashboard/blog/page.js",
+  "/admin/dashboard/users/page": "app/admin/dashboard/users/page.js"
 }

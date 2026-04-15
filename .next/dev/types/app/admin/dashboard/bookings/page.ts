@@ -1,4 +1,4 @@
-// File: C:\Users\stanl\Desktop\vscodeworkspace\feynman\safari-wonder-quest\src\app\admin\dashboard\bookings\page.tsx
+// File: /workspaces/Feynman_Safaris/src/app/admin/dashboard/bookings/page.tsx
 import * as entry from '../../../../../../../src/app/admin/dashboard/bookings/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
