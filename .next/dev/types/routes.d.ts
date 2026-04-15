@@ -3,7 +3,7 @@
 
 type AppRoutes = "/" | "/accommodations" | "/admin/dashboard" | "/admin/dashboard/accommodations" | "/admin/dashboard/blog" | "/admin/dashboard/bookings" | "/admin/dashboard/customers" | "/admin/dashboard/destinations" | "/admin/dashboard/messages" | "/admin/dashboard/reviews" | "/admin/dashboard/transport" | "/admin/dashboard/users" | "/admin/login" | "/contact" | "/destinations" | "/destinations/[slug]" | "/fleet" | "/guides" | "/journal" | "/journal/[slug]" | "/our-story" | "/philosophy" | "/safaris" | "/services" | "/sustainability"
 type AppRouteHandlerRoutes = "/api/accommodations" | "/api/blog" | "/api/bookings" | "/api/bookings/export" | "/api/customers" | "/api/customers/export" | "/api/destinations" | "/api/destinations/[slug]" | "/api/messages" | "/api/reviews" | "/api/stats" | "/api/transport" | "/api/users"
-type PageRoutes = "/Contact" | "/DestinationDetail" | "/Destinations" | "/Guides" | "/Index" | "/Journal" | "/NotFound" | "/OurStory" | "/Philosophy" | "/Safaris" | "/Services" | "/Sustainability"
+type PageRoutes = never
 type LayoutRoutes = "/" | "/admin/dashboard"
 type RedirectRoutes = never
 type RewriteRoutes = never
@@ -38,29 +38,17 @@ interface ParamMap {
   "/api/transport": {}
   "/api/users": {}
   "/contact": {}
-  "/Contact": {}
-  "/DestinationDetail": {}
   "/destinations": {}
-  "/Destinations": {}
   "/destinations/[slug]": { "slug": string; }
   "/fleet": {}
   "/guides": {}
-  "/Guides": {}
-  "/Index": {}
   "/journal": {}
-  "/Journal": {}
   "/journal/[slug]": { "slug": string; }
-  "/NotFound": {}
   "/our-story": {}
-  "/OurStory": {}
   "/philosophy": {}
-  "/Philosophy": {}
   "/safaris": {}
-  "/Safaris": {}
   "/services": {}
-  "/Services": {}
   "/sustainability": {}
-  "/Sustainability": {}
 }
 
 

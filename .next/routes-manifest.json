@@ -1,0 +1,298 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/destinations/[slug]",
+      "regex": "^/api/destinations/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/api/destinations/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/destinations/[slug]",
+      "regex": "^/destinations/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/destinations/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/journal/[slug]",
+      "regex": "^/journal/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/journal/(?<nxtPslug>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/accommodations",
+      "regex": "^/accommodations(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/accommodations(?:/)?$"
+    },
+    {
+      "page": "/admin/dashboard",
+      "regex": "^/admin/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/dashboard(?:/)?$"
+    },
+    {
+      "page": "/admin/dashboard/accommodations",
+      "regex": "^/admin/dashboard/accommodations(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/dashboard/accommodations(?:/)?$"
+    },
+    {
+      "page": "/admin/dashboard/blog",
+      "regex": "^/admin/dashboard/blog(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/dashboard/blog(?:/)?$"
+    },
+    {
+      "page": "/admin/dashboard/bookings",
+      "regex": "^/admin/dashboard/bookings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/dashboard/bookings(?:/)?$"
+    },
+    {
+      "page": "/admin/dashboard/customers",
+      "regex": "^/admin/dashboard/customers(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/dashboard/customers(?:/)?$"
+    },
+    {
+      "page": "/admin/dashboard/destinations",
+      "regex": "^/admin/dashboard/destinations(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/dashboard/destinations(?:/)?$"
+    },
+    {
+      "page": "/admin/dashboard/messages",
+      "regex": "^/admin/dashboard/messages(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/dashboard/messages(?:/)?$"
+    },
+    {
+      "page": "/admin/dashboard/reviews",
+      "regex": "^/admin/dashboard/reviews(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/dashboard/reviews(?:/)?$"
+    },
+    {
+      "page": "/admin/dashboard/transport",
+      "regex": "^/admin/dashboard/transport(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/dashboard/transport(?:/)?$"
+    },
+    {
+      "page": "/admin/dashboard/users",
+      "regex": "^/admin/dashboard/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/dashboard/users(?:/)?$"
+    },
+    {
+      "page": "/admin/login",
+      "regex": "^/admin/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/login(?:/)?$"
+    },
+    {
+      "page": "/api/accommodations",
+      "regex": "^/api/accommodations(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/accommodations(?:/)?$"
+    },
+    {
+      "page": "/api/blog",
+      "regex": "^/api/blog(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/blog(?:/)?$"
+    },
+    {
+      "page": "/api/bookings",
+      "regex": "^/api/bookings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/bookings(?:/)?$"
+    },
+    {
+      "page": "/api/bookings/export",
+      "regex": "^/api/bookings/export(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/bookings/export(?:/)?$"
+    },
+    {
+      "page": "/api/customers",
+      "regex": "^/api/customers(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/customers(?:/)?$"
+    },
+    {
+      "page": "/api/customers/export",
+      "regex": "^/api/customers/export(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/customers/export(?:/)?$"
+    },
+    {
+      "page": "/api/destinations",
+      "regex": "^/api/destinations(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/destinations(?:/)?$"
+    },
+    {
+      "page": "/api/messages",
+      "regex": "^/api/messages(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/messages(?:/)?$"
+    },
+    {
+      "page": "/api/reviews",
+      "regex": "^/api/reviews(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/reviews(?:/)?$"
+    },
+    {
+      "page": "/api/stats",
+      "regex": "^/api/stats(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/stats(?:/)?$"
+    },
+    {
+      "page": "/api/transport",
+      "regex": "^/api/transport(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/transport(?:/)?$"
+    },
+    {
+      "page": "/api/users",
+      "regex": "^/api/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/users(?:/)?$"
+    },
+    {
+      "page": "/contact",
+      "regex": "^/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/contact(?:/)?$"
+    },
+    {
+      "page": "/destinations",
+      "regex": "^/destinations(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/destinations(?:/)?$"
+    },
+    {
+      "page": "/fleet",
+      "regex": "^/fleet(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/fleet(?:/)?$"
+    },
+    {
+      "page": "/guides",
+      "regex": "^/guides(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/guides(?:/)?$"
+    },
+    {
+      "page": "/journal",
+      "regex": "^/journal(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/journal(?:/)?$"
+    },
+    {
+      "page": "/our-story",
+      "regex": "^/our\\-story(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/our\\-story(?:/)?$"
+    },
+    {
+      "page": "/philosophy",
+      "regex": "^/philosophy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/philosophy(?:/)?$"
+    },
+    {
+      "page": "/safaris",
+      "regex": "^/safaris(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/safaris(?:/)?$"
+    },
+    {
+      "page": "/services",
+      "regex": "^/services(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/services(?:/)?$"
+    },
+    {
+      "page": "/sitemap.xml",
+      "regex": "^/sitemap\\.xml(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sitemap\\.xml(?:/)?$"
+    },
+    {
+      "page": "/sustainability",
+      "regex": "^/sustainability(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sustainability(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

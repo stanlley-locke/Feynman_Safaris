@@ -1,0 +1,3 @@
+module.exports=[47290,a=>{"use strict";a.s([])}];
+
+//# sourceMappingURL=_next-internal_server_app_admin_dashboard_destinations_page_actions_0974-v6.js.map

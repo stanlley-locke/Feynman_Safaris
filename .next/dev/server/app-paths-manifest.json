@@ -1,7 +1,7 @@
 {
-  "/destinations/[slug]/page": "app/destinations/[slug]/page.js",
-  "/journal/page": "app/journal/page.js",
+  "/api/destinations/route": "app/api/destinations/route.js",
+  "/api/accommodations/route": "app/api/accommodations/route.js",
+  "/page": "app/page.js",
   "/destinations/page": "app/destinations/page.js",
-  "/admin/dashboard/blog/page": "app/admin/dashboard/blog/page.js",
-  "/admin/dashboard/users/page": "app/admin/dashboard/users/page.js"
+  "/accommodations/page": "app/accommodations/page.js"
 }
