@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 95%;
+    --foreground: 0 0% 17%;
+
+    --card: 40 30% 97%;
+    --card-foreground: 0 0% 17%;
+
+    --popover: 40 30% 97%;
+    --popover-foreground: 0 0% 17%;
+
+    --primary: 18 52% 53%;
+    --primary-foreground: 40 33% 95%;
+
+    --secondary: 40 25% 90%;
+    --secondary-foreground: 0 0% 17%;
+
+    --muted: 40 20% 92%;
+    --muted-foreground: 30 10% 45%;
+
+    --accent: 45 93% 47%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 35 20% 85%;
+    --input: 35 20% 85%;
+    --ring: 40 60% 45%;
+
+    --radius: 0.375rem;
+
+    --gold: 40 60% 45%;
+    --gold-light: 40 55% 65%;
+    --terracotta: 18 52% 53%;
+    --terracotta-dark: 18 52% 40%;
+    --cream: 40 33% 95%;
+    --cream-dark: 40 25% 88%;
+    --charcoal: 0 0% 17%;
+    --charcoal-light: 0 0% 30%;
+    --sage: 100 15% 42%;
+    --warm-white: 40 40% 98%;
+
+    --font-heading: 'Playfair Display', 'Georgia', serif;
+    --font-body: 'DM Sans', 'Helvetica Neue', sans-serif;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply px-6 md:px-12 lg:px-20 xl:px-32;
+  }
+
+  .gold-divider {
+    @apply w-16 h-[2px] bg-accent mx-auto;
+  }
+
+  .gold-divider-left {
+    @apply w-16 h-[2px] bg-accent;
+  }
+
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+
+  .bg-charcoal {
+    background-color: hsl(var(--charcoal));
+  }
+
+  .text-cream {
+    color: hsl(var(--cream));
+  }
+
+  .bg-cream {
+    background-color: hsl(var(--cream));
+  }
+
+  .bg-warm-white {
+    background-color: hsl(var(--warm-white));
+  }
+
+  .text-charcoal {
+    color: hsl(var(--charcoal));
+  }
+
+  .hover-image-zoom {
+    @apply overflow-hidden;
+  }
+
+  .hover-image-zoom img {
+    @apply transition-transform duration-700 ease-out;
+  }
+
+  .hover-image-zoom:hover img {
+    @apply scale-110;
+  }
+
+  .quote-text {
+    font-family: var(--font-heading);
+    font-style: italic;
+    color: hsl(var(--gold));
+  }
+
+  .feynman-link {
+    @apply relative inline-block text-accent transition-all duration-300;
+  }
+
+  .feynman-link::after {
+    content: '';
+    @apply absolute w-full h-[1px] bottom-0 left-0 bg-accent origin-bottom-right transition-transform duration-300 scale-x-0;
+  }
+
+  .feynman-link:hover::after {
+    @apply origin-bottom-left scale-x-100;
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-slow {
+    animation: fadeInSlow 1.2s ease-out forwards;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInSlow {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes quoteRotate {
+    0%, 28% { opacity: 1; }
+    33%, 95% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}

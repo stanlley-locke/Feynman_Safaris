@@ -1,0 +1,92 @@
+// This is your Prisma schema file,$
+// learn more about it in the docs: https://pris.ly/d/prisma-schema$
+$
+generator client {$
+  provider = "prisma-client-js"$
+  engineType = "library"$
+}$
+$
+datasource db {$
+  provider = "sqlite"$
+  url      = "file:./dev.db"$
+}$
+$
+model User {$
+  id            String    @id @default(cuid())$
+  email         String    @unique$
+  passwordHash  String$
+  name          String?$
+  role          String    @default("admin")$
+  createdAt     DateTime  @default(now())$
+  updatedAt     DateTime  @updatedAt$
+}$
+$
+model Destination {$
+  id                String   @id @default(cuid())$
+  name              String$
+  slug              String   @unique$
+  description       String$
+  itinerary         Json?    $
+  highlights        Json?$
+  bestTime          String?$
+  wildlife          Json?$
+  image             String?$
+  accommodationIds  Json?    $
+  transportIds      Json?    $
+  status            String   @default("active") $
+  createdAt         DateTime @default(now())$
+  updatedAt         DateTime @updatedAt$
+}$
+$
+model Accommodation {$
+  id          String   @id @default(cuid())$
+  name        String$
+  location    String$
+  description String?$
+  category    String?$
+  rating      Int?     @default(5)$
+  amenities   Json?$
+  image       String?$
+  website     String?$
+  createdAt   DateTime @default(now())$
+  updatedAt   DateTime @updatedAt$
+}$
+$
+model Transport {$
+  id          String   @id @default(cuid())$
+  name        String$
+  type        String$
+  plate       String?$
+  location    String?$
+  status      String   @default("available")$
+  description String?$
+  image       String?$
+  createdAt   DateTime @default(now())$
+  updatedAt   DateTime @updatedAt$
+}$
+$
+model Booking {$
+  id              String   @id @default(cuid())$
+  customerName    String$
+  customerEmail   String$
+  safariType      String$
+  destinationId   String?$
+  travelDate      DateTime$
+  passengers      Int$
+  amount          String?  $
+  status          String   @default("pending") $
+  message         String?$
+  createdAt       DateTime @default(now())$
+  updatedAt       DateTime @updatedAt$
+}$
+$
+model Message {$
+  id        String   @id @default(cuid())$
+  name      String$
+  email     String$
+  subject   String?$
+  content   String$
+  isRead    Boolean  @default(false)$
+  isStarred Boolean  @default(false)$
+  createdAt DateTime @default(now())$
+}$

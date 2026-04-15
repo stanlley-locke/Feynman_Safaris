@@ -1,0 +1,12 @@
+{
+  "/api/accommodations/route": "app/api/accommodations/route.js",
+  "/api/transport/route": "app/api/transport/route.js",
+  "/api/stats/route": "app/api/stats/route.js",
+  "/api/blog/route": "app/api/blog/route.js",
+  "/page": "app/page.js",
+  "/journal/page": "app/journal/page.js",
+  "/admin/dashboard/customers/page": "app/admin/dashboard/customers/page.js",
+  "/admin/dashboard/accommodations/page": "app/admin/dashboard/accommodations/page.js",
+  "/admin/dashboard/transport/page": "app/admin/dashboard/transport/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js"
+}

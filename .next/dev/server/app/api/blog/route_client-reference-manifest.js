@@ -1,0 +1,1 @@
+globalThis.__RSC_MANIFEST=(globalThis.__RSC_MANIFEST||{});globalThis.__RSC_MANIFEST["/api/blog/route"]={"moduleLoading":{"prefix":"/_next/"},"ssrModuleMapping":{},"edgeSSRModuleMapping":{},"clientModules":{},"entryCSSFiles":{"C:\\Users\\stanl\\Desktop\\vscodeworkspace\\feynman\\safari-wonder-quest\\src\\app\\api\\blog\\route":[]},"rscModuleMapping":{},"edgeRscModuleMapping":{}};
