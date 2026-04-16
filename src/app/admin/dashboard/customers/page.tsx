@@ -41,6 +41,7 @@ interface Customer {
   id: string;
   name: string;
   email: string;
+  whatsapp?: string;
   role: string;
   createdAt: string;
 }
@@ -50,6 +51,8 @@ export default function AdminCustomersPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -77,6 +80,7 @@ export default function AdminCustomersPage() {
     const data = {
       name: formData.get("name"),
       email: formData.get("email"),
+      whatsapp: formData.get("whatsapp"),
       role: "customer",
       passwordHash: "customer_default_pass" // Placeholder for now
     };
@@ -121,26 +125,43 @@ export default function AdminCustomersPage() {
     }
   };
 
-  const handleEditCustomer = async (customer: Customer) => {
-    const nextName = prompt("Update customer name", customer.name || "") ?? customer.name;
-    const nextEmail = prompt("Update customer email", customer.email || "") ?? customer.email;
-    if (!nextName || !nextEmail) return;
+  const handleEditCustomer = (customer: Customer) => {
+    setSelectedCustomer(customer);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleUpdateCustomer = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!selectedCustomer) return;
+    
+    setIsSubmitting(true);
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      id: selectedCustomer.id,
+      name: formData.get("name"),
+      email: formData.get("email"),
+      whatsapp: formData.get("whatsapp"),
+    };
 
     try {
       const res = await fetch("/api/customers", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: customer.id, name: nextName, email: nextEmail }),
+        body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error("Failed");
       setCustomers((prev) =>
         prev.map((item) =>
-          item.id === customer.id ? { ...item, name: nextName, email: nextEmail } : item
+          item.id === selectedCustomer.id ? { ...item, ...data } : item
         )
       );
-      toast({ title: "Updated", description: "Customer updated." });
+      toast({ title: "Updated", description: "Customer updated successfully." });
+      setIsEditDialogOpen(false);
+      setSelectedCustomer(null);
     } catch {
       toast({ title: "Error", description: "Failed to update customer.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -194,11 +215,47 @@ export default function AdminCustomersPage() {
                    <Label htmlFor="email" className="text-xs uppercase tracking-widest text-neutral-400">Email Address</Label>
                    <Input id="email" name="email" type="email" required className="bg-neutral-900 border-neutral-800 rounded-none text-sm focus:border-gold/50" placeholder="alice@example.com" />
                  </div>
+                 <div className="space-y-2">
+                   <Label htmlFor="whatsapp" className="text-xs uppercase tracking-widest text-neutral-400">WhatsApp (optional)</Label>
+                   <Input id="whatsapp" name="whatsapp" className="bg-neutral-900 border-neutral-800 rounded-none text-sm focus:border-gold/50" placeholder="+254 700 000 000" />
+                 </div>
                  <DialogFooter className="pt-6">
                    <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)} className="rounded-none text-neutral-500 hover:text-white">Cancel</Button>
                    <Button type="submit" disabled={isSubmitting} className="bg-gold text-black hover:bg-gold-light rounded-none px-8 font-bold uppercase tracking-widest text-xs">
                      {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <CheckCircle2 className="h-4 w-4 mr-2" />}
                      Establish Profile
+                   </Button>
+                 </DialogFooter>
+               </form>
+             </DialogContent>
+           </Dialog>
+
+           <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+             <DialogContent className="bg-neutral-950 border-neutral-800 text-neutral-100 rounded-none">
+               <DialogHeader>
+                 <DialogTitle className="font-heading text-xl text-gold">Edit Customer</DialogTitle>
+                 <DialogDescription className="text-neutral-500 font-body">
+                   Update customer profile information.
+                 </DialogDescription>
+               </DialogHeader>
+               <form onSubmit={handleUpdateCustomer} className="space-y-4 py-4">
+                 <div className="space-y-2">
+                   <Label htmlFor="edit-name" className="text-xs uppercase tracking-widest text-neutral-400">Full Name</Label>
+                   <Input id="edit-name" name="name" required defaultValue={selectedCustomer?.name} className="bg-neutral-900 border-neutral-800 rounded-none text-sm focus:border-gold/50" />
+                 </div>
+                 <div className="space-y-2">
+                   <Label htmlFor="edit-email" className="text-xs uppercase tracking-widest text-neutral-400">Email Address</Label>
+                   <Input id="edit-email" name="email" type="email" required defaultValue={selectedCustomer?.email} className="bg-neutral-900 border-neutral-800 rounded-none text-sm focus:border-gold/50" />
+                 </div>
+                 <div className="space-y-2">
+                   <Label htmlFor="edit-whatsapp" className="text-xs uppercase tracking-widest text-neutral-400">WhatsApp (optional)</Label>
+                   <Input id="edit-whatsapp" name="whatsapp" defaultValue={selectedCustomer?.whatsapp} className="bg-neutral-900 border-neutral-800 rounded-none text-sm focus:border-gold/50" placeholder="+254 700 000 000" />
+                 </div>
+                 <DialogFooter className="pt-6">
+                   <Button type="button" variant="ghost" onClick={() => setIsEditDialogOpen(false)} className="rounded-none text-neutral-500 hover:text-white">Cancel</Button>
+                   <Button type="submit" disabled={isSubmitting} className="bg-gold text-black hover:bg-gold-light rounded-none px-8 font-bold uppercase tracking-widest text-xs">
+                     {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <CheckCircle2 className="h-4 w-4 mr-2" />}
+                     Update Profile
                    </Button>
                  </DialogFooter>
                </form>
@@ -235,7 +292,8 @@ export default function AdminCustomersPage() {
             <TableHeader className="bg-neutral-900">
               <TableRow className="border-neutral-800 hover:bg-neutral-900/50">
                 <TableHead className="text-neutral-400 font-body uppercase tracking-wider text-[10px]">Customer</TableHead>
-                <TableHead className="text-neutral-400 font-body uppercase tracking-wider text-[10px]">Contact</TableHead>
+                <TableHead className="text-neutral-400 font-body uppercase tracking-wider text-[10px]">Email</TableHead>
+                <TableHead className="text-neutral-400 font-body uppercase tracking-wider text-[10px]">WhatsApp</TableHead>
                 <TableHead className="text-neutral-400 font-body uppercase tracking-wider text-[10px]">Joined</TableHead>
                 <TableHead className="w-[100px]"></TableHead>
               </TableRow>
@@ -254,6 +312,11 @@ export default function AdminCustomersPage() {
                   <TableCell>
                     <div className="flex flex-col gap-1">
                        <span className="text-neutral-400 flex items-center gap-1"><Mail className="h-2.5 w-2.5" /> {customer.email}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="text-neutral-400 text-xs font-body lowercase tracking-wider">
+                      {customer.whatsapp ? customer.whatsapp : "—"}
                     </div>
                   </TableCell>
                   <TableCell className="text-neutral-500 font-body">

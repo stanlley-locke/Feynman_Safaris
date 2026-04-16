@@ -1,7 +1,6 @@
 {
-  "/api/destinations/route": "app/api/destinations/route.js",
-  "/api/accommodations/route": "app/api/accommodations/route.js",
+  "/api/reviews/route": "app/api/reviews/route.js",
   "/page": "app/page.js",
-  "/destinations/page": "app/destinations/page.js",
-  "/accommodations/page": "app/accommodations/page.js"
+  "/contact/page": "app/contact/page.js",
+  "/safaris/page": "app/safaris/page.js"
 }

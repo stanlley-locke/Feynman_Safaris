@@ -174,4 +174,21 @@
     33%, 95% { opacity: 0; }
     100% { opacity: 1; }
   }
+
+  .marquee {
+    display: flex;
+    gap: 3rem;
+    animation: marqueeScroll 30s linear infinite;
+    white-space: nowrap;
+    padding-left: 3rem;
+  }
+
+  .marquee-item {
+    flex: 0 0 auto;
+  }
+
+  @keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
 }

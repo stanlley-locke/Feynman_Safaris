@@ -43,14 +43,14 @@ export default function SafarisPage() {
       {/* Hero */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/assets/hero-safari.jpg" alt="Safari adventure" className="w-full h-full object-cover" />
+          <img src="/assets/amboseli.jpg" alt="Safari adventure" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-charcoal/60" />
         </div>
         <div className="relative z-10 text-center section-padding max-w-4xl">
           <ScrollReveal>
              <div className="gold-divider mb-6" />
              <h1 className="font-heading text-4xl lg:text-6xl font-bold text-cream mb-6">Choose Your Journey</h1>
-             <p className="font-body text-cream/80 text-lg leading-relaxed max-w-2xl mx-auto">
+             <p className="font-body text-white text-lg leading-relaxed max-w-2xl mx-auto">
                From the absolute solitude of a private expedition to the shared joy of a group patrol, discover the safari style that speaks to you.
              </p>
           </ScrollReveal>

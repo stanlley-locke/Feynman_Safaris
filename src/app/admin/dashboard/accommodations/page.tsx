@@ -26,12 +26,15 @@ import {
   DialogDescription
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 export default function AdminAccommodationsPage() {
   const [accommodations, setAccommodations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     location: "",
@@ -58,21 +61,56 @@ export default function AdminAccommodationsPage() {
     fetchAccommodations();
   }, []);
 
-  const handleAdd = async (e: React.FormEvent) => {
+  const resetForm = () => {
+    setFormData({ name: "", location: "", category: "", rating: "5", image: "", website: "", description: "" });
+  };
+
+  const handleOpenAdd = () => {
+    setEditingId(null);
+    resetForm();
+    setOpen(true);
+  };
+
+  const handleOpenEdit = (acc: any) => {
+    setEditingId(acc.id);
+    setFormData({
+      name: acc.name || "",
+      location: acc.location || "",
+      category: acc.category || "",
+      rating: acc.rating?.toString() || "5",
+      image: acc.image || "",
+      website: acc.website || "",
+      description: acc.description || ""
+    });
+    setOpen(true);
+  };
+
+  const handleImageUpload = (file: File | null) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setFormData(prev => ({ ...prev, image: reader.result as string }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAdding(true);
     try {
       const res = await fetch("/api/accommodations", {
-        method: "POST",
+        method: editingId ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, id: editingId }),
       });
       if (res.ok) {
-        toast.success("Accommodation added successfully");
-        setFormData({ name: "", location: "", category: "", rating: "5", image: "", website: "", description: "" });
+        toast.success(editingId ? "Accommodation updated" : "Accommodation added successfully");
+        resetForm();
+        setEditingId(null);
+        setOpen(false);
         fetchAccommodations();
       } else {
-        toast.error("Failed to add accommodation");
+        toast.error(editingId ? "Failed to update accommodation" : "Failed to add accommodation");
       }
     } catch (err) {
       toast.error("An error occurred");
@@ -94,29 +132,8 @@ export default function AdminAccommodationsPage() {
     }
   };
 
-  const handleEdit = async (acc: any) => {
-    const nextName = prompt("Accommodation name", acc.name || "") ?? acc.name;
-    const nextLocation = prompt("Location", acc.location || "") ?? acc.location;
-    const nextWebsite = prompt("Website", acc.website || "") ?? acc.website;
-    if (!nextName || !nextLocation) return;
-
-    try {
-      const res = await fetch("/api/accommodations", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: acc.id,
-          name: nextName,
-          location: nextLocation,
-          website: nextWebsite,
-        }),
-      });
-      if (!res.ok) throw new Error("Failed");
-      toast.success("Accommodation updated");
-      fetchAccommodations();
-    } catch {
-      toast.error("Failed to update accommodation");
-    }
+  const handleEdit = (acc: any) => {
+    handleOpenEdit(acc);
   };
 
   return (
@@ -128,20 +145,20 @@ export default function AdminAccommodationsPage() {
           <p className="text-neutral-400 font-body text-sm lowercase tracking-wider">Manage lodging partners and luxury camps.</p>
         </div>
         
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-gold text-charcoal hover:bg-gold-light rounded-none font-body font-bold uppercase tracking-widest text-xs px-6">
+            <Button onClick={handleOpenAdd} className="bg-gold text-charcoal hover:bg-gold-light rounded-none font-body font-bold uppercase tracking-widest text-xs px-6">
               <Plus className="h-4 w-4 mr-2" /> Add Accommodation
             </Button>
           </DialogTrigger>
           <DialogContent className="bg-neutral-900 border-neutral-800 text-neutral-100 sm:max-w-xl rounded-none">
             <DialogHeader>
-              <DialogTitle className="font-heading text-2xl font-bold text-gold">Register Accommodation</DialogTitle>
+              <DialogTitle className="font-heading text-2xl font-bold text-gold">{editingId ? "Update Accommodation" : "Register Accommodation"}</DialogTitle>
               <DialogDescription className="text-neutral-500 text-xs">
                 Add a new partner stay, lodge, or tented camp to the network.
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleAdd} className="space-y-6 pt-4 font-body">
+            <form onSubmit={handleSubmit} className="space-y-6 pt-4 font-body">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-neutral-400 text-[10px] uppercase tracking-widest font-bold">Hotel Name</Label>
@@ -190,9 +207,9 @@ export default function AdminAccommodationsPage() {
                   />
                 </div>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="image" className="text-neutral-400 text-[10px] uppercase tracking-widest font-bold">Image URL</Label>
-                <div className="flex gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="image" className="text-neutral-400 text-[10px] uppercase tracking-widest font-bold">Image URL</Label>
                   <Input 
                     id="image" 
                     value={formData.image} 
@@ -200,8 +217,21 @@ export default function AdminAccommodationsPage() {
                     placeholder="Paste direct image link here..." 
                     className="bg-neutral-950 border-neutral-800 rounded-none focus:border-gold/50 h-11" 
                   />
-                  <div className="h-11 w-11 bg-neutral-950 border border-neutral-800 flex items-center justify-center shrink-0">
-                     {formData.image ? <img src={formData.image} className="h-full w-full object-cover" /> : <ImageIcon className="h-4 w-4 text-neutral-600" />}
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-neutral-400 text-[10px] uppercase tracking-widest font-bold">Upload from device</Label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e.target.files?.[0] ?? null)}
+                    className="w-full text-xs text-neutral-300 file:mr-4 file:py-2 file:px-4 file:rounded-none file:border file:border-neutral-700 file:bg-neutral-950 file:text-neutral-100"
+                  />
+                  <div className="h-24 overflow-hidden rounded-sm border border-neutral-800 bg-neutral-950">
+                    {formData.image ? (
+                      <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-neutral-500 text-[10px] uppercase tracking-widest">No image selected</div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -215,6 +245,16 @@ export default function AdminAccommodationsPage() {
                   className="bg-neutral-950 border-neutral-800 rounded-none focus:border-gold/50 h-11" 
                 />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="description" className="text-neutral-400 text-[10px] uppercase tracking-widest font-bold">Description</Label>
+                <Textarea
+                  id="description"
+                  value={formData.description}
+                  onChange={(e) => setFormData({...formData, description: e.target.value})}
+                  placeholder="Add a brief property description..."
+                  className="bg-neutral-950 border-neutral-800 rounded-none focus:border-gold/50 min-h-[80px]"
+                />
+              </div>
               <DialogFooter className="pt-4">
                 <Button 
                   type="submit" 
@@ -222,7 +262,7 @@ export default function AdminAccommodationsPage() {
                   className="w-full bg-gold text-charcoal hover:bg-gold-light rounded-none font-bold uppercase tracking-widest h-12"
                 >
                   {isAdding ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Plus className="h-4 w-4 mr-2" />}
-                  Save Accommodation
+                  {editingId ? "Update Accommodation" : "Save Accommodation"}
                 </Button>
               </DialogFooter>
             </form>

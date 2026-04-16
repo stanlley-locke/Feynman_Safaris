@@ -60,8 +60,8 @@ export default function JournalPage() {
             <h1 className="font-heading text-5xl lg:text-8xl font-bold text-cream uppercase tracking-tighter leading-none mb-6">
               The Field <br className="md:hidden" /> Journal
             </h1>
-            <p className="font-body text-cream/80 max-w-2xl mx-auto text-lg lowercase tracking-wide italic">
-              Dispatches from the wild. Stories of conservation, culture, and the untamed spirit of Africa.
+            <p className="font-body text-white max-w-2xl mx-auto text-lg lowercase tracking-wide italic">
+              Stories from the field. Insights on wildlife, conservation, culture, and the soul of Kenya.
             </p>
           </ScrollReveal>
         </div>

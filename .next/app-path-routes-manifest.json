@@ -36,8 +36,10 @@
   "/our-story/page": "/our-story",
   "/page": "/",
   "/philosophy/page": "/philosophy",
+  "/privacy/page": "/privacy",
   "/safaris/page": "/safaris",
   "/services/page": "/services",
   "/sitemap.xml/route": "/sitemap.xml",
-  "/sustainability/page": "/sustainability"
+  "/sustainability/page": "/sustainability",
+  "/terms/page": "/terms"
 }

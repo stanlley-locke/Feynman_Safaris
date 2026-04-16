@@ -36,8 +36,10 @@
   "/our-story/page": "app/our-story/page.js",
   "/page": "app/page.js",
   "/philosophy/page": "app/philosophy/page.js",
+  "/privacy/page": "app/privacy/page.js",
   "/safaris/page": "app/safaris/page.js",
   "/services/page": "app/services/page.js",
   "/sitemap.xml/route": "app/sitemap.xml/route.js",
-  "/sustainability/page": "app/sustainability/page.js"
+  "/sustainability/page": "app/sustainability/page.js",
+  "/terms/page": "app/terms/page.js"
 }

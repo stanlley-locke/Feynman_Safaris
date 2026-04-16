@@ -43,25 +43,25 @@ export default function AdminLoginPage() {
       <div className="absolute inset-0 bg-foreground/90 backdrop-blur-sm" />
 
       <div className="relative z-10 w-full max-w-5xl animate-fade-up">
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
-          <div className="hidden lg:flex flex-col justify-between border border-cream/10 bg-black/25 backdrop-blur-md p-10">
+        <div className="grid lg:grid-cols-[45%_55%] gap-6 lg:gap-10 items-stretch">
+          <div className="flex flex-col justify-between border border-cream/10 bg-black/25 backdrop-blur-md p-6 lg:p-10">
             <div>
               <p className="text-[10px] text-gold uppercase tracking-[0.35em] font-bold mb-5">Feynman Management Core</p>
-              <h1 className="font-heading text-4xl text-cream font-bold leading-tight mb-4">
+              <h1 className="font-heading text-2xl lg:text-4xl text-cream font-bold leading-tight mb-4">
                 Admin Portal
               </h1>
-              <p className="font-body text-cream/70 text-sm leading-relaxed">
+              <p className="font-body text-white text-sm leading-relaxed">
                 Operate destinations, bookings, customers, and dispatches from one secure dashboard.
               </p>
             </div>
-            <div className="space-y-4 border-t border-cream/10 pt-8">
+            <div className="space-y-3 lg:space-y-4 border-t border-cream/10 pt-6 lg:pt-8">
               {[
                 { icon: ShieldCheck, text: "Secure access for operations" },
                 { icon: Compass, text: "Destination and itinerary control" },
                 { icon: MessageSquare, text: "Live customer inquiry handling" },
               ].map((item) => (
-                <div key={item.text} className="flex items-center gap-3 text-cream/70 text-sm">
-                  <item.icon className="h-4 w-4 text-gold" />
+                <div key={item.text} className="flex items-center gap-3 text-white text-xs lg:text-sm">
+                  <item.icon className="h-4 w-4 text-gold flex-shrink-0" />
                   <span>{item.text}</span>
                 </div>
               ))}
@@ -69,20 +69,20 @@ export default function AdminLoginPage() {
           </div>
 
           <div>
-            <div className="text-center mb-6">
+            <div className="text-center mb-4 lg:mb-6">
               <Link href="/" className="inline-flex items-center gap-3 mb-4">
-                <span className="font-heading text-3xl font-bold tracking-wider text-cream">FEYNMAN</span>
+                <span className="font-heading text-2xl lg:text-3xl font-bold tracking-wider text-cream">FEYNMAN</span>
               </Link>
               <div className="gold-divider mb-4" />
-              <p className="quote-text text-sm text-cream/60 italic">
+              <p className="quote-text text-xs lg:text-sm text-cream/60 italic">
                 "What I cannot create, I do not understand."
               </p>
             </div>
 
             <Card className="rounded-none border-cream/10 bg-cream/5 backdrop-blur-md text-cream shadow-2xl">
-              <CardHeader className="space-y-1 pb-4">
-                <CardTitle className="font-heading text-2xl">Sign In</CardTitle>
-                <CardDescription className="text-cream/50 font-body">
+              <CardHeader className="space-y-1 pb-3 lg:pb-4">
+                <CardTitle className="font-heading text-xl lg:text-2xl">Sign In</CardTitle>
+                <CardDescription className="text-cream/50 font-body text-sm">
                   Enter your credentials to access the operations dashboard.
                 </CardDescription>
               </CardHeader>

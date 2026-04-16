@@ -2,6 +2,7 @@
 
 import Header from "./Header";
 import Footer from "./Footer";
+import FloatingSocialIcons from "./FloatingSocialIcons";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -9,6 +10,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
+      <FloatingSocialIcons />
     </div>
   );
 };

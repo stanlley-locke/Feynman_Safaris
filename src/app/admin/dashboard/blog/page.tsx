@@ -30,6 +30,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
@@ -54,6 +60,8 @@ export default function AdminBlogPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -113,6 +121,50 @@ export default function AdminBlogPage() {
       setPosts(p => p.filter(item => item.id !== id));
       toast({ title: "Deleted", description: "Post removed from records." });
     } catch (error) {}
+  };
+
+  const handleEditPost = (post: BlogPost) => {
+    setEditingPost(post);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleViewPost = (post: BlogPost) => {
+    window.open(`/journal/${post.slug}`, '_blank');
+  };
+
+  const handleUpdatePost = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!editingPost) return;
+    
+    setIsSubmitting(true);
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      title: formData.get("title"),
+      excerpt: formData.get("excerpt"),
+      content: formData.get("content"),
+      category: formData.get("category"),
+      author: formData.get("author"),
+      image: formData.get("image"),
+      status: formData.get("status")
+    };
+
+    try {
+      const res = await fetch(`/api/blog?id=${editingPost.id}`, {
+        method: "PATCH",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      });
+      if (res.ok) {
+        toast({ title: "Success", description: "Field report updated successfully." });
+        setIsEditDialogOpen(false);
+        setEditingPost(null);
+        fetchPosts();
+      }
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to update post.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const filteredPosts = posts.filter(p => 
@@ -202,6 +254,109 @@ export default function AdminBlogPage() {
                </form>
              </DialogContent>
            </Dialog>
+
+           {/* Edit Dialog */}
+           <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+             <DialogContent className="bg-neutral-950 border-neutral-800 text-neutral-100 rounded-none sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+               <DialogHeader>
+                 <DialogTitle className="font-heading text-xl text-gold">Edit Field Report</DialogTitle>
+                 <DialogDescription className="text-neutral-500 font-body">
+                   Update this safari story for your audience.
+                 </DialogDescription>
+               </DialogHeader>
+               {editingPost && (
+                 <form onSubmit={handleUpdatePost} className="space-y-4 py-4">
+                   <div className="grid grid-cols-2 gap-4">
+                     <div className="space-y-2">
+                       <Label htmlFor="edit-title" className="text-xs uppercase tracking-widest text-neutral-400">Post Title</Label>
+                       <Input 
+                         id="edit-title" 
+                         name="title" 
+                         required 
+                         defaultValue={editingPost.title}
+                         className="bg-neutral-900 border-neutral-800 rounded-none text-sm focus:border-gold/50" 
+                       />
+                     </div>
+                     <div className="space-y-2">
+                       <Label htmlFor="edit-category" className="text-xs uppercase tracking-widest text-neutral-400">Category</Label>
+                       <Input 
+                         id="edit-category" 
+                         name="category" 
+                         required 
+                         defaultValue={editingPost.category}
+                         className="bg-neutral-900 border-neutral-800 rounded-none text-sm focus:border-gold/50" 
+                       />
+                     </div>
+                   </div>
+                   
+                   <div className="grid grid-cols-2 gap-4">
+                     <div className="space-y-2">
+                       <Label htmlFor="edit-author" className="text-xs uppercase tracking-widest text-neutral-400">Author Name</Label>
+                       <Input 
+                         id="edit-author" 
+                         name="author" 
+                         required 
+                         defaultValue={editingPost.author}
+                         className="bg-neutral-900 border-neutral-800 rounded-none text-sm focus:border-gold/50" 
+                       />
+                     </div>
+                     <div className="space-y-2">
+                       <Label htmlFor="edit-status" className="text-xs uppercase tracking-widest text-neutral-400">Visibility</Label>
+                       <select 
+                         id="edit-status" 
+                         name="status" 
+                         defaultValue={editingPost.status}
+                         className="w-full bg-neutral-900 border border-neutral-800 rounded-none text-sm p-2 focus:border-gold/50 outline-none"
+                       >
+                          <option value="published">Published</option>
+                          <option value="draft">Draft</option>
+                       </select>
+                     </div>
+                   </div>
+
+                   <div className="space-y-2">
+                     <Label htmlFor="edit-image" className="text-xs uppercase tracking-widest text-neutral-400">Cover Image URL</Label>
+                     <Input 
+                       id="edit-image" 
+                       name="image" 
+                       defaultValue={editingPost.image}
+                       className="bg-neutral-900 border-neutral-800 rounded-none text-sm focus:border-gold/50" 
+                     />
+                   </div>
+
+                   <div className="space-y-2">
+                     <Label htmlFor="edit-excerpt" className="text-xs uppercase tracking-widest text-neutral-400">Excerpt (Short Summary)</Label>
+                     <Textarea 
+                       id="edit-excerpt" 
+                       name="excerpt" 
+                       required 
+                       defaultValue={editingPost.excerpt}
+                       className="bg-neutral-900 border-neutral-800 rounded-none text-sm focus:border-gold/50 min-h-[80px]" 
+                     />
+                   </div>
+
+                   <div className="space-y-2">
+                     <Label htmlFor="edit-content" className="text-xs uppercase tracking-widest text-neutral-400">Full Content</Label>
+                     <Textarea 
+                       id="edit-content" 
+                       name="content" 
+                       required 
+                       defaultValue={editingPost.content}
+                       className="bg-neutral-900 border-neutral-800 rounded-none text-sm focus:border-gold/50 min-h-[200px]" 
+                     />
+                   </div>
+
+                   <DialogFooter className="pt-6">
+                     <Button type="button" variant="ghost" onClick={() => setIsEditDialogOpen(false)} className="rounded-none text-neutral-500 hover:text-white">Cancel</Button>
+                     <Button type="submit" disabled={isSubmitting} className="bg-gold text-black hover:bg-gold-light rounded-none px-8 font-bold uppercase tracking-widest text-xs">
+                       {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Edit className="h-4 w-4 mr-2" />}
+                       Update Dispatch
+                     </Button>
+                   </DialogFooter>
+                 </form>
+               )}
+             </DialogContent>
+           </Dialog>
         </div>
       </div>
 
@@ -265,10 +420,22 @@ export default function AdminBlogPage() {
                    </div>
 
                    <div className="md:w-48 flex items-center md:justify-end gap-2">
-                      <Button variant="ghost" size="icon" className="h-9 w-9 text-neutral-500 hover:text-white rounded-none border border-transparent hover:border-neutral-700">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => handleViewPost(post)}
+                        className="h-9 w-9 text-neutral-500 hover:text-blue-400 rounded-none border border-transparent hover:border-neutral-700"
+                        title="View Post"
+                      >
                          <Eye className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="h-9 w-9 text-neutral-500 hover:text-gold rounded-none border border-transparent hover:border-neutral-700">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => handleEditPost(post)}
+                        className="h-9 w-9 text-neutral-500 hover:text-gold rounded-none border border-transparent hover:border-neutral-700"
+                        title="Edit Post"
+                      >
                          <Edit className="h-4 w-4" />
                       </Button>
                       <Button 
@@ -276,12 +443,40 @@ export default function AdminBlogPage() {
                          size="icon" 
                          onClick={() => deletePost(post.id)}
                          className="h-9 w-9 text-neutral-500 hover:text-red-500 rounded-none border border-transparent hover:border-neutral-700"
+                         title="Delete Post"
                       >
                          <Trash2 className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="h-9 w-9 text-neutral-500 hover:text-white rounded-none">
-                         <MoreVertical className="h-4 w-4" />
-                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-9 w-9 text-neutral-500 hover:text-white rounded-none">
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="bg-neutral-900 border-neutral-800">
+                          <DropdownMenuItem 
+                            onClick={() => handleViewPost(post)}
+                            className="text-blue-400 hover:text-blue-300 hover:bg-neutral-800"
+                          >
+                            <Eye className="h-4 w-4 mr-2" />
+                            View
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={() => handleEditPost(post)}
+                            className="text-gold hover:text-gold-light hover:bg-neutral-800"
+                          >
+                            <Edit className="h-4 w-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={() => deletePost(post.id)}
+                            className="text-red-400 hover:text-red-300 hover:bg-neutral-800"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                    </div>
                 </div>
                 {post.status === "published" && <div className="absolute right-0 top-0 w-1 h-full bg-gold/20" />}

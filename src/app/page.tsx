@@ -84,17 +84,42 @@ const journalPosts = [
 const Home = () => {
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [testimonialFading, setTestimonialFading] = useState(false);
+  const [dynamicTestimonials, setDynamicTestimonials] = useState([]);
+
+  useEffect(() => {
+    // Fetch approved reviews for testimonials
+    const fetchTestimonials = async () => {
+      try {
+        const res = await fetch("/api/reviews?status=approved");
+        const reviews = await res.json();
+        if (reviews.length > 0) {
+          const formattedReviews = reviews.map(review => ({
+            text: review.comment,
+            name: review.userName.toUpperCase(),
+            trip: review.destinationName || "Safari Experience",
+          }));
+          setDynamicTestimonials(formattedReviews);
+        }
+      } catch (error) {
+        console.error("Failed to fetch testimonials:", error);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
+
+  const currentTestimonials = dynamicTestimonials.length > 0 ? dynamicTestimonials : testimonials;
 
   useEffect(() => {
     const interval = setInterval(() => {
       setTestimonialFading(true);
       setTimeout(() => {
-        setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+        setTestimonialIndex((prev) => (prev + 1) % currentTestimonials.length);
         setTestimonialFading(false);
       }, 500);
     }, 8000);
     return () => clearInterval(interval);
-  }, []);
+  }, [currentTestimonials.length]);
 
   return (
     <Layout>
@@ -194,7 +219,7 @@ const Home = () => {
           <ScrollReveal className="text-center mb-16">
             <div className="gold-divider mb-6" />
             <h2 className="font-heading text-3xl lg:text-4xl font-semibold mb-3 text-foreground">Curated for the Curious</h2>
-            <p className="font-body text-muted-foreground">Four ways to experience Kenya. One philosophy behind them all.</p>
+            <p className="font-body text-white">Four ways to experience Kenya. One philosophy behind them all.</p>
           </ScrollReveal>
           <div className="grid md:grid-cols-2 gap-6">
             {experiences.map((exp, i) => (
@@ -207,7 +232,7 @@ const Home = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-8">
                     <h3 className="font-heading text-2xl font-semibold text-cream mb-2">{exp.title}</h3>
-                    <p className="font-body text-sm text-cream/80 mb-4">{exp.desc}</p>
+                    <p className="font-body text-sm text-white mb-4">{exp.desc}</p>
                     <span className="inline-flex items-center gap-2 text-gold font-body text-sm font-medium group-hover:gap-3 transition-all duration-300">
                       Explore <ArrowRight size={14} />
                     </span>
@@ -238,7 +263,7 @@ const Home = () => {
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <div className="w-8 h-[2px] bg-gold mb-3 transition-all duration-300 group-hover:w-12" />
                     <h3 className="font-heading text-xl font-semibold text-cream mb-1">{dest.name}</h3>
-                    <p className="font-body text-xs text-cream/70">{dest.desc}</p>
+                    <p className="font-body text-xs text-white">{dest.desc}</p>
                   </div>
                 </Link>
               </ScrollReveal>
@@ -294,17 +319,17 @@ const Home = () => {
           <div className={`transition-opacity duration-500 ${testimonialFading ? "opacity-0" : "opacity-100"}`}>
             <span className="text-gold text-6xl font-heading leading-none">"</span>
             <p className="font-heading text-lg lg:text-xl italic text-cream/90 leading-relaxed mb-8 -mt-4">
-              {testimonials[testimonialIndex].text}
+              {currentTestimonials[testimonialIndex].text}
             </p>
             <p className="font-body text-sm text-gold tracking-wider font-medium">
-              — {testimonials[testimonialIndex].name}
+              — {currentTestimonials[testimonialIndex].name}
             </p>
             <p className="font-body text-xs text-cream/50 mt-1">
-              {testimonials[testimonialIndex].trip}
+              {currentTestimonials[testimonialIndex].trip}
             </p>
           </div>
           <div className="flex justify-center gap-2 mt-10">
-            {testimonials.map((_, i) => (
+            {currentTestimonials.map((_, i) => (
               <button
                 key={i}
                 type="button"
@@ -316,29 +341,56 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Invitation */}
-      <section className="relative py-24 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={campfireImage} alt="Safari campfire under the stars" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-foreground/60" />
-        </div>
-        <div className="relative z-10 section-padding max-w-3xl mx-auto text-center">
-          <div className="gold-divider mb-8" />
-          <h2 className="font-heading text-3xl lg:text-4xl font-semibold text-cream mb-6">
-            Ready for Something Deeper?
-          </h2>
-          <p className="font-body text-cream/80 mb-10 leading-relaxed">
-            A Feynman safari isn't just a trip. It's a transformation. Let's start designing yours.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-block px-10 py-4 bg-accent text-accent-foreground font-body text-sm tracking-wider hover:bg-gold-light transition-all duration-300"
-          >
-            Plan My Safari
-          </Link>
-          <p className="quote-text text-sm text-cream/40 mt-8">
-            "The same equations have the most beautiful solutions." — RPF
-          </p>
+      {/* Partners */}
+      <section className="section-padding py-20 lg:py-28 bg-warm-white overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal className="text-center mb-16">
+            <div className="gold-divider mb-6" />
+            <h2 className="font-heading text-3xl lg:text-4xl font-semibold mb-3 text-foreground">Our Partners</h2>
+            <p className="font-body text-muted-foreground">Trusted by industry leaders and recognized for excellence</p>
+          </ScrollReveal>
+          <div className="relative overflow-hidden bg-white py-8">
+            <div className="marquee">
+              {[
+                { name: "Kenya Wildlife Service", url: "https://www.kws.go.ke", logo: "https://kws.go.ke/ppf/resources/kws_logo.png" },
+                { name: "Kenya Association of Tour Operations", url: "https://katokenya.org", logo: "https://katokenya.org/wp-content/uploads/2020/05/rsz_1rsz_kato_bonded_color.png" },
+                { name: "Trip Advisor", url: "https://www.tripadvisor.com", logo: "https://static.tacdn.com/assets/s/b1e5c3f0.ico" },
+                { name: "Safari Bookings", url: "https://www.safaribookings.com", logo: "https://help.safaribookings.com/hc/article_attachments/26817280540701" },
+                { name: "WildBliss Tours and Safaris", url: "https://wildblisstoursandsafaris.com", logo: "https://wildblisstoursandsafaris.com/logo.png" },
+                { name: "Firebird Computing", url: "https://firebirdcomputing.com", logo: "https://firebirdcomputing.com/media/firebird.png" },
+                { name: "Solvo Tours and Safaris", url: "http://solvotoursandsafaris.com", logo: "http://solvotoursandsafaris.com/logo.jpeg" },
+              ].concat([
+                { name: "Kenya Wildlife Service", url: "https://www.kws.go.ke", logo: "https://kws.go.ke/ppf/resources/kws_logo.png" },
+                { name: "Kenya Association of Tour Operations", url: "https://katokenya.org", logo: "https://katokenya.org/wp-content/uploads/2020/05/rsz_1rsz_kato_bonded_color.png" },
+                { name: "Trip Advisor", url: "https://www.tripadvisor.com", logo: "https://static.tacdn.com/assets/s/b1e5c3f0.ico" },
+                { name: "Safari Bookings", url: "https://www.safaribookings.com", logo: "https://help.safaribookings.com/hc/article_attachments/26817280540701" },
+                { name: "WildBliss Tours and Safaris", url: "https://wildblisstoursandsafaris.com", logo: "https://wildblisstoursandsafaris.com/logo.png" },
+                { name: "Firebird Computing", url: "https://firebirdcomputing.com", logo: "https://firebirdcomputing.com/media/firebird.png" },
+                { name: "Solvo Tours and Safaris", url: "http://solvotoursandsafaris.com", logo: "http://solvotoursandsafaris.com/logo.jpeg" },
+              ]).map((partner, i) => (
+                <a
+                  key={`${partner.name}-${i}`}
+                  href={partner.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="marquee-item flex items-center justify-center min-w-[200px] px-8 py-4 transition-all duration-300 hover:scale-105"
+                  title={partner.name}
+                >
+                  {partner.logo ? (
+                    <img
+                      src={partner.logo}
+                      alt={partner.name}
+                      className="max-h-16 max-w-full object-contain transition-all duration-300"
+                    />
+                  ) : (
+                    <span className="font-body text-xs text-center text-foreground/90 font-semibold uppercase tracking-wide">
+                      {partner.name}
+                    </span>
+                  )}
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </Layout>

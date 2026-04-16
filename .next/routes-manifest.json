@@ -253,6 +253,12 @@
       "namedRegex": "^/philosophy(?:/)?$"
     },
     {
+      "page": "/privacy",
+      "regex": "^/privacy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/privacy(?:/)?$"
+    },
+    {
       "page": "/safaris",
       "regex": "^/safaris(?:/)?$",
       "routeKeys": {},
@@ -275,6 +281,12 @@
       "regex": "^/sustainability(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/sustainability(?:/)?$"
+    },
+    {
+      "page": "/terms",
+      "regex": "^/terms(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/terms(?:/)?$"
     }
   ],
   "dataRoutes": [],

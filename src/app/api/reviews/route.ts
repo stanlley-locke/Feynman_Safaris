@@ -3,9 +3,18 @@ import { db } from "@/db";
 import { reviews } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const results = await db.select().from(reviews).orderBy(desc(reviews.createdAt));
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get("status");
+    
+    let query = db.select().from(reviews);
+    
+    if (status) {
+      query = query.where(eq(reviews.status, status));
+    }
+    
+    const results = await query.orderBy(desc(reviews.createdAt));
     return NextResponse.json(results);
   } catch (error: any) {
     console.error("DIAGNOSTIC - Failed to fetch reviews:", error.message || error);

@@ -17,18 +17,55 @@ export default function ContactPage() {
     e.preventDefault();
     setSubmitting(true);
 
-    // Simulate submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const subject = formData.interest ? `Contact Inquiry - ${formData.interest}` : "Contact Inquiry";
+      const content = `
+Name: ${formData.name}
+Email: ${formData.email}
+Country: ${formData.country || 'Not specified'}
+WhatsApp: ${formData.whatsapp || 'Not provided'}
+Interest: ${formData.interest || 'Not specified'}
+Preferred Dates: ${formData.dates || 'Not specified'}
+Travelers: ${formData.travelers || 'Not specified'}
+Budget Range: ${formData.budget || 'Not specified'}
 
-    toast.success("Thank you for your inquiry! We'll respond within 24 hours.", {
-      description: "A real person will review your request and get back to you personally.",
-    });
+Message:
+${formData.message || 'No message provided'}
+      `.trim();
 
-    setFormData({
-      name: "", email: "", country: "", whatsapp: "",
-      interest: "", dates: "", travelers: "", budget: "", message: "",
-    });
-    setSubmitting(false);
+      const response = await fetch('/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject,
+          content,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
+      toast.success("Thank you for your inquiry! We'll respond within 24 hours.", {
+        description: "A real person will review your request and get back to you personally.",
+      });
+
+      setFormData({
+        name: "", email: "", country: "", whatsapp: "",
+        interest: "", dates: "", travelers: "", budget: "", message: "",
+      });
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast.error("Failed to send your inquiry. Please try again or contact us directly.", {
+        description: "You can email us at info@feynmansafaris.com",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -69,7 +106,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <label className="font-body text-sm font-medium text-foreground mb-1.5 block">WhatsApp (optional)</label>
-                  <input name="whatsapp" value={formData.whatsapp} onChange={handleChange} className="w-full px-4 py-3 bg-card border border-border font-body text-sm focus:border-accent focus:outline-none transition-colors" />
+                  <input name="whatsapp" value={formData.whatsapp} onChange={handleChange} placeholder="e.g. +254 700 000 000" className="w-full px-4 py-3 bg-card border border-border font-body text-sm focus:border-accent focus:outline-none transition-colors" />
                 </div>
               </div>
               <div>
@@ -138,7 +175,7 @@ export default function ContactPage() {
                   <Phone className="w-5 h-5 text-accent mt-0.5" strokeWidth={1.5} />
                   <div>
                     <p className="font-body text-sm font-medium text-foreground">Phone/WhatsApp</p>
-                    <a href="tel:+254000000000" className="font-body text-sm text-muted-foreground hover:text-accent transition-colors">+254 XXX XXX XXX</a>
+                    <a href="tel:+254752032884" className="font-body text-sm text-muted-foreground hover:text-accent transition-colors">+254 752 032 884</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">

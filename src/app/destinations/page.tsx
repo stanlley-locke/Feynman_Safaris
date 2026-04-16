@@ -48,7 +48,7 @@ export default function DestinationsPage() {
         <div className="relative z-10 section-padding pb-16 max-w-3xl">
           <div className="gold-divider-left mb-6" />
           <h1 className="font-heading text-4xl lg:text-5xl font-bold text-cream mb-4 uppercase tracking-tighter">A Land of Endless Discovery</h1>
-          <p className="font-body text-cream/80 leading-relaxed max-w-xl">
+          <p className="font-body text-white leading-relaxed max-w-xl">
             From the savanna to the coast, every place tells a story. Our curated collection of destinations represents the true heart of the wild.
           </p>
         </div>

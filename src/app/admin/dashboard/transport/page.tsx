@@ -33,6 +33,8 @@ export default function AdminTransportPage() {
   const [transports, setTransports] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     type: "Safari Land Cruiser",
@@ -59,21 +61,56 @@ export default function AdminTransportPage() {
     fetchTransports();
   }, []);
 
-  const handleAdd = async (e: React.FormEvent) => {
+  const resetForm = () => {
+    setFormData({ name: "", type: "Safari Land Cruiser", plate: "", location: "", status: "available", image: "", description: "" });
+  };
+
+  const handleOpenAdd = () => {
+    setEditingId(null);
+    resetForm();
+    setOpen(true);
+  };
+
+  const handleOpenEdit = (transport: any) => {
+    setEditingId(transport.id);
+    setFormData({
+      name: transport.name || "",
+      type: transport.type || "Safari Land Cruiser",
+      plate: transport.plate || "",
+      location: transport.location || "",
+      status: transport.status || "available",
+      image: transport.image || "",
+      description: transport.description || ""
+    });
+    setOpen(true);
+  };
+
+  const handleImageUpload = (file: File | null) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setFormData(prev => ({ ...prev, image: reader.result as string }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAdding(true);
     try {
       const res = await fetch("/api/transport", {
-        method: "POST",
+        method: editingId ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, id: editingId }),
       });
       if (res.ok) {
-        toast.success("Vehicle added to fleet");
-        setFormData({ name: "", type: "Safari Land Cruiser", plate: "", location: "", status: "available", image: "", description: "" });
+        toast.success(editingId ? "Vehicle updated" : "Vehicle added to fleet");
+        resetForm();
+        setEditingId(null);
+        setOpen(false);
         fetchTransports();
       } else {
-        toast.error("Failed to add transport");
+        toast.error(editingId ? "Failed to update transport" : "Failed to add transport");
       }
     } catch (err) {
       toast.error("An error occurred");
@@ -111,29 +148,8 @@ export default function AdminTransportPage() {
     }
   };
 
-  const editTransport = async (transport: any) => {
-    const nextName = prompt("Vehicle name", transport.name || "") ?? transport.name;
-    const nextPlate = prompt("Plate number", transport.plate || "") ?? transport.plate;
-    const nextLocation = prompt("Location", transport.location || "") ?? transport.location;
-    if (!nextName) return;
-
-    try {
-      const res = await fetch("/api/transport", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: transport.id,
-          name: nextName,
-          plate: nextPlate,
-          location: nextLocation,
-        }),
-      });
-      if (!res.ok) throw new Error("Failed");
-      toast.success("Transport updated");
-      fetchTransports();
-    } catch {
-      toast.error("Failed to update transport");
-    }
+  const editTransport = (transport: any) => {
+    handleOpenEdit(transport);
   };
 
   return (
@@ -145,20 +161,20 @@ export default function AdminTransportPage() {
           <p className="text-neutral-400 font-body text-sm lowercase tracking-wider">Manage safari vehicles and partner transfers.</p>
         </div>
         
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-gold text-charcoal hover:bg-gold-light rounded-none font-body font-bold uppercase tracking-widest text-xs px-6">
+            <Button onClick={handleOpenAdd} className="bg-gold text-charcoal hover:bg-gold-light rounded-none font-body font-bold uppercase tracking-widest text-xs px-6">
               <Plus className="h-4 w-4 mr-2" /> Add Vehicle
             </Button>
           </DialogTrigger>
           <DialogContent className="bg-neutral-900 border-neutral-800 text-neutral-100 sm:max-w-xl rounded-none">
             <DialogHeader>
-              <DialogTitle className="font-heading text-2xl font-bold text-gold">Enlist Fleet Vehicle</DialogTitle>
+              <DialogTitle className="font-heading text-2xl font-bold text-gold">{editingId ? "Update Vehicle" : "Enlist Fleet Vehicle"}</DialogTitle>
               <DialogDescription className="text-neutral-500 text-xs">
                 Add a new land rover, cruiser, or aircraft to the transport logistics.
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleAdd} className="space-y-6 pt-4 font-body">
+            <form onSubmit={handleSubmit} className="space-y-6 pt-4 font-body">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label className="text-neutral-400 text-[10px] uppercase tracking-widest font-bold">Vehicle Name</Label>
@@ -205,13 +221,41 @@ export default function AdminTransportPage() {
                 </div>
               </div>
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-neutral-400 text-[10px] uppercase tracking-widest font-bold">Vehicle Photo URL</Label>
+                  <Input 
+                    value={formData.image} 
+                    onChange={(e) => setFormData({...formData, image: e.target.value})}
+                    placeholder="Paste direct link..." 
+                    className="bg-neutral-950 border-neutral-800 rounded-none h-11" 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-neutral-400 text-[10px] uppercase tracking-widest font-bold">Upload from device</Label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e.target.files?.[0] ?? null)}
+                    className="w-full text-xs text-neutral-300 file:mr-4 file:py-2 file:px-4 file:rounded-none file:border file:border-neutral-700 file:bg-neutral-950 file:text-neutral-100"
+                  />
+                  <div className="h-24 overflow-hidden rounded-sm border border-neutral-800 bg-neutral-950">
+                    {formData.image ? (
+                      <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-neutral-500 text-[10px] uppercase tracking-widest">No photo selected</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
               <div className="space-y-2">
-                <Label className="text-neutral-400 text-[10px] uppercase tracking-widest font-bold">Vehicle Photo URL</Label>
-                <Input 
-                  value={formData.image} 
-                  onChange={(e) => setFormData({...formData, image: e.target.value})}
-                  placeholder="Paste direct link..." 
-                  className="bg-neutral-950 border-neutral-800 rounded-none h-11" 
+                <Label className="text-neutral-400 text-[10px] uppercase tracking-widest font-bold">Vehicle Notes</Label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({...formData, description: e.target.value})}
+                  placeholder="Add a short fleet note..."
+                  className="w-full min-h-[80px] resize-none rounded-none border border-neutral-800 bg-neutral-950 px-4 py-3 text-sm text-neutral-100 focus:border-gold outline-none"
                 />
               </div>
 
@@ -222,7 +266,7 @@ export default function AdminTransportPage() {
                   className="w-full bg-gold text-charcoal hover:bg-gold-light rounded-none font-bold uppercase tracking-widest h-12"
                 >
                   {isAdding ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Truck className="h-4 w-4 mr-2" />}
-                  Register Vehicle
+                  {editingId ? "Update Vehicle" : "Register Vehicle"}
                 </Button>
               </DialogFooter>
             </form>
@@ -298,7 +342,7 @@ export default function AdminTransportPage() {
                           >
                              <Trash2 className="h-4 w-4" />
                           </Button>
-                          <Button variant="outline" onClick={() => { editTransport(tr); }} className="rounded-none border-neutral-800 h-8 text-[9px] px-3 uppercase tracking-widest font-bold hover:border-gold hover:text-gold">
+                          <Button variant="outline" onClick={() => handleOpenEdit(tr)} className="rounded-none border-neutral-800 h-8 text-[9px] px-3 uppercase tracking-widest font-bold hover:border-gold hover:text-gold">
                             Edit
                           </Button>
                           <Button variant="outline" onClick={() => updateTransportStatus(tr)} className="rounded-none border-neutral-800 h-8 text-[9px] px-3 uppercase tracking-widest font-bold hover:border-gold hover:text-gold">

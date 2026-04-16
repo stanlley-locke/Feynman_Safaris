@@ -530,6 +530,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/privacy": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/privacy",
+      "dataRoute": "/privacy.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/safaris": {
       "experimentalBypassFor": [
         {
@@ -630,13 +654,37 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
+    },
+    "/terms": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/terms",
+      "dataRoute": "/terms.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "2cf95a85cec1942b721840fafa16a7cd",
-    "previewModeSigningKey": "58421b71f2ddceb06e1f06715e9cb9064d3dc67e6b3c5edbd22ab4c7f4db6f18",
-    "previewModeEncryptionKey": "75e8641b9840aeef0b5bdb06f773cedc86c872a3e63d18d99e3e5960c21ad7e5"
+    "previewModeId": "956c705615c50ed85997f49210ad3bf5",
+    "previewModeSigningKey": "7de40b9ca20abb330e9f746cd0dfa187cd96364c915e12e0e1f08c8920dd799d",
+    "previewModeEncryptionKey": "459f5968c5e56db39e85f9b5c7de2356f8e2c2baa6bf79008601a9a808e3f200"
   }
 }

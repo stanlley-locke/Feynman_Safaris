@@ -120,30 +120,6 @@ export default function OurStoryPage() {
         </div>
       </section>
 
-      {/* Founder */}
-      <section className="section-padding py-20 lg:py-28">
-        <div className="max-w-3xl mx-auto text-center">
-          <ScrollReveal>
-            <div className="gold-divider mb-8" />
-            <h2 className="font-heading text-3xl font-semibold text-foreground mb-8">Meet the Founder</h2>
-            <div className="w-32 h-32 rounded-none bg-secondary mx-auto mb-8 flex items-center justify-center">
-              <span className="font-heading text-3xl text-accent/40">F</span>
-            </div>
-            <div className="space-y-4 font-body text-muted-foreground leading-relaxed text-left">
-              <p>
-                I started this company because I believe safaris can be more than they are. I spent years learning from the ground up—driving, guiding, listening, watching.
-              </p>
-              <p>
-                I've been to the Mara more times than I can count, and every time I go, I learn something new. That's the feeling I want to share.
-              </p>
-              <p>
-                When you travel with Feynman, you're not just a client. You're a fellow curious traveler. And yes—if you ask, I might just come along.
-              </p>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
       {/* Sustainability Link */}
       <section className="bg-warm-white section-padding py-20 lg:py-28">
         <div className="max-w-3xl mx-auto text-center">

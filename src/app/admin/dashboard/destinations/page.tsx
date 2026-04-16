@@ -116,6 +116,15 @@ export default function AdminDestinationsPage() {
     setOpen(true);
   };
 
+  const handleImageUpload = (file: File | null) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setFormData(prev => ({ ...prev, image: reader.result as string }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -238,7 +247,7 @@ export default function AdminDestinationsPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="space-y-2">
                   <Label className="text-neutral-400 text-[10px] uppercase font-bold tracking-widest">Peak Season (Best Time)</Label>
                   <Input 
@@ -256,6 +265,22 @@ export default function AdminDestinationsPage() {
                     placeholder="Paste link here..." 
                     className="bg-neutral-950 border-neutral-800 rounded-none focus:border-gold/50 h-11" 
                   />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-neutral-400 text-[10px] uppercase font-bold tracking-widest">Upload Hero Image</Label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e.target.files?.[0] ?? null)}
+                    className="w-full text-xs text-neutral-300 file:mr-4 file:py-2 file:px-4 file:rounded-none file:border file:border-neutral-700 file:bg-neutral-950 file:text-neutral-100"
+                  />
+                  <div className="h-24 w-full overflow-hidden rounded-sm border border-neutral-800 bg-neutral-950">
+                    {formData.image ? (
+                      <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-neutral-500 text-[10px] uppercase tracking-widest">No hero image selected</div>
+                    )}
+                  </div>
                 </div>
               </div>
 

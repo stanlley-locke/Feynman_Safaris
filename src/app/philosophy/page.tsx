@@ -7,20 +7,25 @@ import { Lightbulb, BookOpen, Smile, Zap } from "lucide-react";
 export default function PhilosophyPage() {
   return (
     <Layout>
-      <section className="pt-32 pb-20 lg:pt-48 lg:pb-32 bg-warm-white">
-        <div className="section-padding">
-          <div className="max-w-4xl mx-auto text-center">
-            <ScrollReveal>
-              <div className="gold-divider mb-8" />
-              <h1 className="font-heading text-4xl lg:text-6xl font-bold text-foreground mb-6">
-                The Feynman Method
-              </h1>
-              <p className="font-body text-xl text-muted-foreground leading-relaxed italic">
-                "If you can't explain it to a six-year-old, you don't understand it yourself."
-              </p>
-            </ScrollReveal>
-          </div>
+      {/* Hero Section */}
+      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/assets/richard_feynman_1.jpeg" alt="Richard Feynman" className="w-full h-full object-cover object-top" />
+          <div className="absolute inset-0 bg-gradient-to-b from-foreground/40 via-foreground/50 to-foreground/70" />
         </div>
+        <div className="relative z-10 text-center section-padding max-w-3xl">
+          <ScrollReveal>
+            <p className="font-body text-sm uppercase tracking-[0.35em] text-gold mb-4 font-bold">Our Philosophy</p>
+            <h1 className="font-heading text-4xl lg:text-6xl font-bold text-cream mb-4">The Feynman Method</h1>
+            <p className="font-body text-white text-lg italic">
+              "If you can't explain it to a six-year-old, you don't understand it yourself."
+            </p>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="pt-8 pb-20 lg:pt-12 lg:pb-32 bg-warm-white">
+        <div className="section-padding" />
       </section>
 
       <section className="section-padding py-20 lg:py-32">

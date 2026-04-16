@@ -98,6 +98,7 @@ CREATE TABLE "User" (
 	"id" text PRIMARY KEY NOT NULL,
 	"email" text NOT NULL,
 	"passwordHash" text NOT NULL,
+	"whatsapp" text,
 	"name" text,
 	"role" text DEFAULT 'user' NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now(),

@@ -3,10 +3,23 @@ import { db } from "@/db";
 import { blogPosts } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const results = await db.select().from(blogPosts).orderBy(desc(blogPosts.createdAt));
-    return NextResponse.json(results);
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get("slug");
+    
+    if (slug) {
+      // Fetch single post by slug
+      const result = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug)).limit(1);
+      if (result.length === 0) {
+        return NextResponse.json({ error: "Post not found" }, { status: 404 });
+      }
+      return NextResponse.json(result[0]);
+    } else {
+      // Fetch all posts
+      const results = await db.select().from(blogPosts).orderBy(desc(blogPosts.createdAt));
+      return NextResponse.json(results);
+    }
   } catch (error: any) {
     console.error("DIAGNOSTIC - Failed to fetch blog posts:", error.message || error);
     return NextResponse.json([], { status: 500 });
@@ -21,7 +34,11 @@ export async function POST(request: Request) {
     const newPost = {
       id,
       title: body.title,
-      slug: body.slug || body.title.toLowerCase().replace(/ /g, "-"),
+      slug: body.slug || body.title.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/-+/g, '-') // Replace multiple hyphens with single
+        .trim(),
       content: body.content,
       excerpt: body.excerpt || "",
       image: body.image || "",
@@ -49,8 +66,18 @@ export async function PATCH(request: Request) {
     const body = await request.json();
     if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
     
+    // Regenerate slug if title changed
+    const updateData = { ...body };
+    if (body.title) {
+      updateData.slug = body.title.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/-+/g, '-') // Replace multiple hyphens with single
+        .trim();
+    }
+    
     await db.update(blogPosts).set({
-      ...body,
+      ...updateData,
       updatedAt: new Date()
     }).where(eq(blogPosts.id, id));
     

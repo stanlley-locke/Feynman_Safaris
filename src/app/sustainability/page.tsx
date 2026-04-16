@@ -7,20 +7,25 @@ import { TreePine, Heart, Users, Compass } from "lucide-react";
 export default function SustainabilityPage() {
   return (
     <Layout>
-      <section className="pt-32 pb-20 lg:pt-48 lg:pb-32 bg-warm-white">
-        <div className="section-padding">
-          <div className="max-w-4xl mx-auto text-center">
-            <ScrollReveal>
-              <div className="gold-divider mb-8" />
-              <h1 className="font-heading text-4xl lg:text-6xl font-bold text-foreground mb-6">
-                Protecting the Tapestry
-              </h1>
-              <p className="font-body text-xl text-muted-foreground leading-relaxed italic max-w-2xl mx-auto">
-                "Nature uses only the longest threads to weave her patterns, so that each small piece of her fabric reveals the organization of the entire tapestry."
-              </p>
-            </ScrollReveal>
-          </div>
+      {/* Hero Section */}
+      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/assets/tsavo.jpg" alt="Sustainability" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-foreground/40 via-foreground/50 to-foreground/70" />
         </div>
+        <div className="relative z-10 text-center section-padding max-w-3xl">
+          <ScrollReveal>
+            <p className="font-body text-sm uppercase tracking-[0.35em] text-gold mb-4 font-bold">Our Commitment</p>
+            <h1 className="font-heading text-4xl lg:text-6xl font-bold text-cream mb-4">Protecting the Tapestry</h1>
+            <p className="font-body text-white text-lg italic max-w-2xl mx-auto">
+              "Nature uses only the longest threads to weave her patterns, so that each small piece of her fabric reveals the organization of the entire tapestry."
+            </p>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="pt-8 pb-20 lg:pt-12 lg:pb-32 bg-warm-white">
+        <div className="section-padding" />
       </section>
 
       <section className="section-padding py-20 lg:py-32">

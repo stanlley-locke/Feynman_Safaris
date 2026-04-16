@@ -28,6 +28,7 @@ export async function POST(request: Request) {
       email: body.email,
       passwordHash: body.passwordHash || "customer_default_pass",
       name: body.name || "",
+      whatsapp: body.whatsapp || null,
       role: "customer",
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -53,6 +54,7 @@ export async function PATCH(request: Request) {
 
     if (typeof data.name === "string") updateData.name = data.name;
     if (typeof data.email === "string") updateData.email = data.email;
+    if (typeof data.whatsapp === "string") updateData.whatsapp = data.whatsapp;
 
     await db
       .update(users)

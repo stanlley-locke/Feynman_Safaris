@@ -11,11 +11,18 @@ import {
   MoreVertical,
   MapPin,
   RefreshCcw,
-  MessageSquare
+  MessageSquare,
+  RotateCcw
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
 interface Review {
@@ -169,26 +176,74 @@ export default function AdminReviewsPage() {
                       </div>
                       <div className="flex items-center gap-2">
                          {review.status === "pending" && (
+                            <>
+                              <Button 
+                                size="icon" 
+                                variant="outline" 
+                                onClick={() => updateStatus(review.id, "approved")}
+                                className="h-8 w-8 border-emerald-900/50 text-emerald-500 bg-emerald-950/20 hover:bg-emerald-500 hover:text-black transition-all rounded-none"
+                                title="Approve Review"
+                              >
+                                 <CheckCircle2 className="h-4 w-4" />
+                              </Button>
+                              <Button 
+                                size="icon" 
+                                variant="outline" 
+                                onClick={() => updateStatus(review.id, "rejected")}
+                                className="h-8 w-8 border-red-900/50 text-red-500 bg-red-950/20 hover:bg-red-500 hover:text-black transition-all rounded-none"
+                                title="Reject Review"
+                              >
+                                <XCircle className="h-4 w-4" />
+                              </Button>
+                            </>
+                         )}
+                         {review.status === "rejected" && (
                             <Button 
                               size="icon" 
                               variant="outline" 
                               onClick={() => updateStatus(review.id, "approved")}
                               className="h-8 w-8 border-emerald-900/50 text-emerald-500 bg-emerald-950/20 hover:bg-emerald-500 hover:text-black transition-all rounded-none"
+                              title="Approve Review"
                             >
-                               <CheckCircle2 className="h-4 w-4" />
+                               <RotateCcw className="h-4 w-4" />
                             </Button>
                          )}
-                         <Button 
-                           size="icon" 
-                           variant="outline" 
-                           onClick={() => updateStatus(review.id, "rejected")}
-                           className="h-8 w-8 border-red-900/50 text-red-500 bg-red-950/20 hover:bg-red-500 hover:text-black transition-all rounded-none"
-                         >
-                            <XCircle className="h-4 w-4" />
-                         </Button>
-                         <Button size="icon" variant="ghost" className="h-8 w-8 text-neutral-500 hover:text-gold rounded-none">
-                            <MoreVertical className="h-4 w-4" />
-                         </Button>
+                         <DropdownMenu>
+                           <DropdownMenuTrigger asChild>
+                             <Button size="icon" variant="ghost" className="h-8 w-8 text-neutral-500 hover:text-gold rounded-none">
+                               <MoreVertical className="h-4 w-4" />
+                             </Button>
+                           </DropdownMenuTrigger>
+                           <DropdownMenuContent align="end" className="bg-neutral-900 border-neutral-800">
+                             {review.status !== "approved" && (
+                               <DropdownMenuItem 
+                                 onClick={() => updateStatus(review.id, "approved")}
+                                 className="text-emerald-400 hover:text-emerald-300 hover:bg-neutral-800"
+                               >
+                                 <CheckCircle2 className="h-4 w-4 mr-2" />
+                                 Approve
+                               </DropdownMenuItem>
+                             )}
+                             {review.status !== "rejected" && (
+                               <DropdownMenuItem 
+                                 onClick={() => updateStatus(review.id, "rejected")}
+                                 className="text-red-400 hover:text-red-300 hover:bg-neutral-800"
+                               >
+                                 <XCircle className="h-4 w-4 mr-2" />
+                                 Reject
+                               </DropdownMenuItem>
+                             )}
+                             {review.status !== "pending" && (
+                               <DropdownMenuItem 
+                                 onClick={() => updateStatus(review.id, "pending")}
+                                 className="text-amber-400 hover:text-amber-300 hover:bg-neutral-800"
+                               >
+                                 <Clock className="h-4 w-4 mr-2" />
+                                 Mark as Pending
+                               </DropdownMenuItem>
+                             )}
+                           </DropdownMenuContent>
+                         </DropdownMenu>
                       </div>
                    </div>
                 </div>
